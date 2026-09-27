@@ -3,3 +3,8 @@ djangorestframework
 djangorestframework-simplejwt
 psycopg[binary]
 django-environ
+gunicorn
+whitenoise
+pytest
+pytest-django
+pytest-cov
