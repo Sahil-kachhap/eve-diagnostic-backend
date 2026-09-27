@@ -1,11 +1,24 @@
 from rest_framework import generics
+
 from accounts.permissions import IsAdminUserRole
-from .models import DiagnosticCentre, DiagnosticTest, CentreTest
-from .serializers import DiagnosticCentreSerializer, DiagnosticTestSerializer, CentreTestSerializer
+
+from .models import (
+    CentreTest,
+    DiagnosticCentre,
+    DiagnosticTest,
+)
+from .serializers import (
+    CentreTestSerializer,
+    DiagnosticCentreSerializer,
+    DiagnosticTestSerializer,
+)
 
 
 class DiagnosticCentreListCreateView(generics.ListCreateAPIView):
-    queryset = DiagnosticCentre.objects.all()
+    queryset = DiagnosticCentre.objects.all().order_by(
+        "-created_at",
+        "-id",
+    )
     serializer_class = DiagnosticCentreSerializer
 
     def get_permissions(self):
@@ -25,7 +38,10 @@ class DiagnosticCentreDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DiagnosticTestListCreateView(generics.ListCreateAPIView):
-    queryset = DiagnosticTest.objects.all()
+    queryset = DiagnosticTest.objects.all().order_by(
+        "-created_at",
+        "-id",
+    )
     serializer_class = DiagnosticTestSerializer
 
     def get_permissions(self):
@@ -43,10 +59,12 @@ class DiagnosticTestDetailView(generics.RetrieveUpdateDestroyAPIView):
             return [IsAdminUserRole()]
         return super().get_permissions()
 
+
 class CentreTestListCreateView(generics.ListCreateAPIView):
-    queryset = CentreTest.objects.select_related(
-        "centre",
-        "test",
+    queryset = (
+        CentreTest.objects
+        .select_related("centre", "test")
+        .order_by("-created_at", "-id")
     )
     serializer_class = CentreTestSerializer
 
@@ -68,6 +86,7 @@ class CentreTestDetailView(generics.RetrieveUpdateDestroyAPIView):
             return [IsAdminUserRole()]
         return super().get_permissions()
 
+
 class AvailableCentreTestListView(generics.ListAPIView):
     serializer_class = CentreTestSerializer
 
@@ -76,4 +95,5 @@ class AvailableCentreTestListView(generics.ListAPIView):
             CentreTest.objects
             .filter(is_available=True)
             .select_related("centre", "test")
+            .order_by("-created_at", "-id")
         )

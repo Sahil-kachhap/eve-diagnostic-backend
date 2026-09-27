@@ -27,22 +27,6 @@ class BookingCreateView(generics.CreateAPIView):
             BookingSerializer(booking).data,
             status=201,
         )
-
-class BookingListView(generics.ListAPIView):
-    serializer_class = BookingSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return (
-            Booking.objects
-            .filter(user=self.request.user)
-            .select_related(
-                "centre_test__centre",
-                "centre_test__test",
-            )
-            .order_by("-created_at")
-        )
-
 class BookingListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
@@ -59,7 +43,7 @@ class BookingListCreateView(generics.ListCreateAPIView):
                 "centre_test__centre",
                 "centre_test__test",
             )
-            .order_by("-created_at")
+            .order_by("-created_at", "-id")
         )
 
     def create(self, request, *args, **kwargs):

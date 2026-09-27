@@ -4,16 +4,10 @@ from .views import (
     BookingCancelView,
     BookingCreateView,
     BookingDetailView,
-    BookingListView,
     BookingListCreateView
 )
 
 urlpatterns = [
-    path(
-        "",
-        BookingListView.as_view(),
-        name="booking-list",
-    ),
     path(
         "create/",
         BookingCreateView.as_view(),
