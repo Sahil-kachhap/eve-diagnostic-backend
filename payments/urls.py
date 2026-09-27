@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PaymentCreateView
+from .views import PaymentCreateView, PaymentWebhookView
 
 
 urlpatterns = [
@@ -9,4 +9,10 @@ urlpatterns = [
         PaymentCreateView.as_view(),
         name="payment-create",
     ),
+    path(
+        "webhook/",
+        PaymentWebhookView.as_view(),
+        name="payment-webhook",
+    ),
+
 ]

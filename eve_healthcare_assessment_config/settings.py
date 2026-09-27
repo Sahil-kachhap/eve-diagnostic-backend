@@ -23,6 +23,10 @@ env = environ.Env(
 
 environ.Env.read_env(BASE_DIR / ".env")
 
+PAYMENT_WEBHOOK_SECRET = env(
+    "PAYMENT_WEBHOOK_SECRET"
+)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
@@ -34,6 +38,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+AUTH_USER_MODEL = "accounts.User"
 
 
 # Application definition

@@ -19,3 +19,25 @@ class PaymentSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
         read_only_fields = fields
+
+class PaymentWebhookSerializer(serializers.Serializer):
+    event_id = serializers.CharField(max_length=150)
+    event_type = serializers.ChoiceField(
+        choices=[
+            "payment.success",
+            "payment.failed",
+        ]
+    )
+    provider_payment_id = serializers.CharField(
+        max_length=100,
+    )
+    status = serializers.ChoiceField(
+        choices=[
+            "SUCCESS",
+            "FAILED",
+        ]
+    )
+    amount = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+    )
