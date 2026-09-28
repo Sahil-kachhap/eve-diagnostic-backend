@@ -20,4 +20,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "uv run --no-dev python manage.py collectstatic --no-input && uv run --no-dev python manage.py migrate && uv run --no-dev gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-10000}"]
+CMD ["sh", "-c", "uv run --no-dev python manage.py collectstatic --no-input && uv run --no-dev python manage.py migrate && uv run --no-dev gunicorn eve_healthcare_assessment_config.wsgi:application --bind 0.0.0.0:${PORT:-10000}"]
